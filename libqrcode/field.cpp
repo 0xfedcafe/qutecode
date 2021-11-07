@@ -103,6 +103,6 @@ std::vector<unsigned char> Field::GetLog(unsigned char II1, unsigned char II2) {
 
 std::vector<unsigned char> Field::GetExp(unsigned char II1, unsigned char II2) {
   std::vector<unsigned char> res(II2 - II1);
-  std::copy(exp.begin() + II1, exp.end() + II2, res.begin());
+    std::copy(exp.begin() + II1, exp.end() + II2, res.begin());
   return std::move(res);
 }
