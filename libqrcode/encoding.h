@@ -5,9 +5,10 @@
 #ifndef QUTECODE_LIBQRCODE_ENCODING_H_
 #define QUTECODE_LIBQRCODE_ENCODING_H_
 
-#include <algorithm>
+#include<algorithm>
 #include <string>
 #include <vector>
+#include "bits.h"
 
 namespace encodings {
 using Level = unsigned char;
@@ -23,26 +24,28 @@ int LvlSizeClass(Level l) {
 static const int kNumLen[3] = {10, 12, 14};
 static const int kAlphaLen[3] = {9, 11, 13};
 static const int kStringLen[3] = {8, 16, 16};
+static const int kMinVersion = 1;
+static const int kMaxVersion = 40;
 
 class Alpha {
   void Check();
-  void Encode(std::vector<unsigned int>& bits, Level level);
-  int Bits(Level version);
-  std::string bits_;
+  void Encode(Bits& bits, Level level);
+  int BitsCnt(Level version);
+  std::string data_;
 };
 
 class Num {
   void Check();
-  void Encode(std::vector<unsigned int>& bits, Level level);
-  int Bits(Level version);
-  std::string bits_;
+  void Encode(Bits& bits, Level level);
+  int BitsCnt(Level version);
+  std::string data_;
 };
 
 class String {
   void Check();
-  void Encode(std::vector<unsigned int>& bits, Level level);
-  int Bits(Level version);
-  std::string bits_;
+  void Encode(Bits& bits, Level level);
+  int BitsCnt(Level version);
+  std::string data_;
 };
 template <class EncodeType>
 class Encoder : EncodeType {};
