@@ -55,11 +55,22 @@ int Alpha::BitsCnt(Level version) {
 }
 
 void Alpha::Encode(Bits &bits, Level level) {
-  bits.Write(2,4);
+  bits.Write(2, 4);
   bits.Write(data_.size(), kAlphaLen[LvlSizeClass(level)]);
   int i;
-  for(int i = 0; i +2 <= data_.size(); i+=2) {
-
+  for (int i = 0; i + 2 <= data_.size(); i += 2) {
+    bits.Write(45 * std::distance(kAlphabet.begin(),
+                                  std::find(kAlphabet.begin(), kAlphabet.end(),
+                                            data_[i])) +
+                   std::distance(kAlphabet.begin(),
+                                 std::find(kAlphabet.begin(), kAlphabet.end(),
+                                           data_[i + 1])),
+               11);
+    if (i < data_.size()) {
+      bits.Write(std::distance(
+          kAlphabet.begin(),
+          std::find(kAlphabet.begin(), kAlphabet.end(), data_[i])));
+    }
   }
 }
 
@@ -68,6 +79,14 @@ void String::Check() { return; }
 
 int String::BitsCnt(Level version) {
   return 4 + kStringLen[LvlSizeClass(version)] + 8 * data_.size();
+}
+
+void String::Encode(Bits &bits, Level level) {
+  bits.Write(4, 4);
+  bits.Write(data_.size(), kStringLen[LvlSizeClass(level)]);
+  for (auto x : data_) {
+    bits.Write(x, 8);
+  }
 }
 
 }  // namespace encodings
