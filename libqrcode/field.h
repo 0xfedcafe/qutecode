@@ -17,10 +17,10 @@ class Field {
   Field(int poly, int generator);
   std::vector<unsigned char> Generate(int e);
   std::vector<unsigned char> GenerateLog(std::vector<unsigned char>& e);
-  unsigned char GetLog(unsigned char II1);
-  std::vector<unsigned char> GetLog(unsigned char II1,unsigned char II2);
-  unsigned char GetExp(unsigned char II1);
-  std::vector<unsigned char> GetExp(unsigned char II1, unsigned char II2);
+  unsigned char GetLog(size_t II1);
+  std::vector<unsigned char> GetLog(size_t II1,size_t II2);
+  unsigned char GetExp(size_t II1);
+  std::vector<unsigned char> GetExp(size_t II1, size_t II2);
 
  private:
   std::array<unsigned char, kLogSize> log;

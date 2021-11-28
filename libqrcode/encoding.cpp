@@ -25,7 +25,7 @@ int Num::BitsCnt(Level version) {
 void Num::Encode(Bits &bits, Level level) {
   bits.Write(1, 4);
   bits.Write(data_.size(), kNumLen[LvlSizeClass(level)]);
-  int i;
+  size_t i;
   for (i = 0; i + 3 <= data_.size(); i += 3) {
     bits.Write(
         (data_[i] - '0') * 100 + (data_[i + 1] - '0') * 10 + data_[i + 2] - '0',
@@ -57,8 +57,8 @@ int Alpha::BitsCnt(Level version) {
 void Alpha::Encode(Bits &bits, Level level) {
   bits.Write(2, 4);
   bits.Write(data_.size(), kAlphaLen[LvlSizeClass(level)]);
-  int i;
-  for (int i = 0; i + 2 <= data_.size(); i += 2) {
+  size_t i;
+  for (i = 0; i + 2 <= data_.size(); i += 2) {
     bits.Write(45 * std::distance(kAlphabet.begin(),
                                   std::find(kAlphabet.begin(), kAlphabet.end(),
                                             data_[i])) +
@@ -68,8 +68,9 @@ void Alpha::Encode(Bits &bits, Level level) {
                11);
     if (i < data_.size()) {
       bits.Write(std::distance(
-          kAlphabet.begin(),
-          std::find(kAlphabet.begin(), kAlphabet.end(), data_[i])));
+                     kAlphabet.begin(),
+                     std::find(kAlphabet.begin(), kAlphabet.end(), data_[i])),
+                 6);
     }
   }
 }

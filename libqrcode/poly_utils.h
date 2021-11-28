@@ -20,7 +20,7 @@ unsigned int msgnbit(int p) {
   unsigned int msgnbit_p = msgnbit(p);
   unsigned int msgnbit_q = msgnbit(q);
   for (; msgnbit_p >= msgnbit_q; msgnbit_p--) {
-    if (p & (1 << (msgnbit_p - 1)) != 0) {
+    if ((p & (1 << (msgnbit_p - 1)))) {
       p ^= q << (msgnbit_p - msgnbit_q);
     }
   }
@@ -33,10 +33,9 @@ bool isReducible(int p) {
   for (int q = 2; q < (1 << (highest_bit / 2 + 1)); q++) {
     if (dividePolynoms(p, q) == 0) {
       return true;
-    } else {
-      return false;
     }
   }
+  return false;
 }
 
 // multiply returns the product x*y mod poly, a GF(256) multiplication.
@@ -51,8 +50,8 @@ int multiplyPolynoms(int x, int y, int poly) {
     if (y & 0x100) {
       y ^= poly;
     }
-    return z;
   }
+  return z;
 }
 
 }  // namespace utils

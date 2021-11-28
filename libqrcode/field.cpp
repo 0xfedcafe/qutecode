@@ -15,7 +15,7 @@ Field::Field(int poly, int generator) {
     throw std::invalid_argument(fmt::format(
         "gf256: invalid generator {}, for polynomial {}", poly, generator));
     char x = 1;
-    for (char i = 0; i < UINT8_MAX; i++) {
+    for (unsigned char i = 0; i < UINT8_MAX; i++) {
       if (x == 1 && i != 0)
         throw std::invalid_argument(fmt::format(
             "gf256: invalid generator {}, for polynomial {}", poly, generator));
@@ -24,7 +24,7 @@ Field::Field(int poly, int generator) {
       log[x] = i;
     }
     log[0] = UINT8_MAX;
-    for (char i = 0; i < UINT8_MAX; i++) {
+    for (unsigned char i = 0; i < UINT8_MAX; i++) {
       if (log[exp[i]] != i) {
         throw std::invalid_argument("bad log");
       }
@@ -78,31 +78,31 @@ std::vector<unsigned char> Field::Generate(int e) {
     }
     p[e] = Multiply(p[e], c);
   }
-  return std::move(p);
+  return p;
 }
 std::vector<unsigned char> Field::GenerateLog(std::vector<unsigned char>& p) {
   std::vector<unsigned char> logp(p.size() + 1);
-  for (int i = 0; i < p.size(); i++) {
+  for (size_t i = 0; i < p.size(); i++) {
     if (p[i] == 0) {
       logp[i] = 255;
     } else {
       logp[i] = Log(p[i]);
     }
   }
-  return std::move(logp);
+  return logp;
 }
-unsigned char Field::GetExp(unsigned char index) { return exp[index]; }
+unsigned char Field::GetExp(size_t index) { return exp[index]; }
 
-unsigned char Field::GetLog(unsigned char index) { return log[index]; }
+unsigned char Field::GetLog(size_t index) { return log[index]; }
 
-std::vector<unsigned char> Field::GetLog(unsigned char II1, unsigned char II2) {
+std::vector<unsigned char> Field::GetLog(size_t II1, size_t II2) {
   std::vector<unsigned char> res(II2 - II1);
   std::copy(log.begin() + II1, log.end() + II2, res.begin());
-  return std::move(res);
+  return res;
 }
 
-std::vector<unsigned char> Field::GetExp(unsigned char II1, unsigned char II2) {
+std::vector<unsigned char> Field::GetExp(size_t II1, size_t II2) {
   std::vector<unsigned char> res(II2 - II1);
     std::copy(exp.begin() + II1, exp.end() + II2, res.begin());
-  return std::move(res);
+  return res;
 }
