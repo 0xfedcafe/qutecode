@@ -14,7 +14,7 @@ Field::Field(int poly, int generator) {
   if (poly < 0x100 || poly >= 0x200 || utils::isReducible(poly)) {
     throw std::invalid_argument(fmt::format(
         "gf256: invalid generator {}, for polynomial {}", poly, generator));
-    char x = 1;
+    unsigned char x = 1;
     for (unsigned char i = 0; i < UINT8_MAX; i++) {
       if (x == 1 && i != 0)
         throw std::invalid_argument(fmt::format(
@@ -103,6 +103,6 @@ std::vector<unsigned char> Field::GetLog(size_t II1, size_t II2) {
 
 std::vector<unsigned char> Field::GetExp(size_t II1, size_t II2) {
   std::vector<unsigned char> res(II2 - II1);
-    std::copy(exp.begin() + II1, exp.end() + II2, res.begin());
+  std::copy(exp.begin() + II1, exp.end() + II2, res.begin());
   return res;
 }

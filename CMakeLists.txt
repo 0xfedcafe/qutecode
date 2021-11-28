@@ -9,7 +9,7 @@ conan_basic_setup()
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 
 
-add_executable(qutecode main.cpp libqrcode/qr.cpp libqrcode/qr.h libqrcode/error_correction.cpp libqrcode/poly_utils.h libqrcode/field.cpp libqrcode/field.h libqrcode/encoding.cpp libqrcode/encoding.h libqrcode/bits.cpp libqrcode/bits.h)
+add_executable(qutecode main.cpp libqrcode/qr.cpp libqrcode/qr.h libqrcode/error_correction.cpp libqrcode/poly_utils.h libqrcode/field.cpp libqrcode/field.h libqrcode/encoding.cpp libqrcode/encoding.h libqrcode/bits.cpp libqrcode/bits.h libqrcode/pixel.cpp libqrcode/pixel.h)
 
 target_link_libraries(${PROJECT_NAME} ${CONAN_LIBS})
 

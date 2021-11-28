@@ -5,9 +5,10 @@
 #ifndef QUTECODE_LIBQRCODE_ENCODING_H_
 #define QUTECODE_LIBQRCODE_ENCODING_H_
 
-#include<algorithm>
+#include <algorithm>
 #include <string>
 #include <vector>
+
 #include "bits.h"
 
 namespace encodings {
