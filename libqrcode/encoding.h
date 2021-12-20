@@ -13,6 +13,14 @@
 
 namespace encodings {
 using Level = unsigned char;
+const char kLevelString[5] = "LMQH";
+enum Levels { L, M, Q, H };
+char GetLevelString(Level level) {
+  if (Levels::L <= level && level <= Levels::H) {
+    return kLevelString[level];
+  }
+  throw std::logic_error("Wrong level");
+}
 int LvlSizeClass(Level l) {
   if (l <= 9) {
     return 0;
