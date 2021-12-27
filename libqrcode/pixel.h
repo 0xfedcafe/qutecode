@@ -32,6 +32,7 @@ class PixelRole {
 
 class Pixel {
  public:
+  Pixel();
   enum { Black = 1, Invert };
   Pixel(int init);
   PixelRole GetRole();

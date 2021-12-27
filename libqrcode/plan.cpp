@@ -59,10 +59,10 @@ void DrawBox(util::Grid map, uint x, uint y) {
 }
 
 }  // namespace util
-
+volatile int a;
 Plan::Plan(uint version)
     : version_(version), map_(util::GenerateGrid(4 * version + 17)) {
-  for (int i = 0; i < map_.size(); i++) {
+  for (uint i = 0; i < map_.size(); i++) {
     auto pixel = (PixelRole::Timing << 2);
     if (!(i & 2)) {
       pixel |= Pixel::Black;
@@ -74,5 +74,5 @@ Plan::Plan(uint version)
   util::DrawBox(map_, map_.size(), 0);
   util::DrawBox(map_, 0, map_.size() - 7);
   auto info = metadata::vtab[version];
- // todo
+  // todo
 }
