@@ -23,8 +23,6 @@ Pixel::Pixel(int init) : val_(init){};
 
 PixelRole::PixelRole(int init) : val_(init){};
 
-Pixel PixelRole::GetPixel() { return Pixel(val_ << 2); }
-
 int PixelRole::GetVal() { return val_; }
 
 // End of PixelRole Methods

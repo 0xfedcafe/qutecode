@@ -9,6 +9,7 @@
 class Pixel;
 
 class PixelRole {
+ public:
   enum {
     Position = 1,  // position squares (large)
     Alignment,     // alignment squares (small)
@@ -20,19 +21,18 @@ class PixelRole {
     Check,         // error correction check bit
     Extra,
   };
-
- public:
   PixelRole(int init);
   Pixel GetPixel();
   int GetVal();
   std::string String();
+
+ private:
   int val_;
 };
 
 class Pixel {
-  enum { Black = 1, Invert };
-
  public:
+  enum { Black = 1, Invert };
   Pixel(int init);
   PixelRole GetRole();
   uint32_t GetOffset();
