@@ -109,7 +109,7 @@ Plan::Plan(uint version)
   auto pattern = metadata::vtab[version_].pattern();
   if (pattern != 0) {
     version = pattern;
-    for (uint dx = 0; x < 6; x++) {
+    for (uint dx = 0; dx < 6; dx++) {
       for (uint dy = 0; dy < 3; dy++) {
         auto pixel = (PixelRole::PVersion << 2);
         if (version & 1) {

@@ -21,4 +21,4 @@ uint metadata::Version::pos() const { return pos_; }
 uint metadata::Version::stride() const { return stride_; }
 uint metadata::Version::bytes() const { return bytes_; }
 uint metadata::Version::pattern() const { return pattern_; }
-std::vector<Level> metadata::Version::level() const { return level_; }
+std::vector<metadata::Level> metadata::Version::level() const { return level_; }
