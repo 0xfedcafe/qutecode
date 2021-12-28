@@ -32,9 +32,9 @@ int PixelRole::GetVal() { return val_; }
 
 PixelRole Pixel::GetRole() { return (PixelRole(val_ >> 2).GetVal() & 15); }
 
-uint Pixel::GetOffset(uint val) { return uint(val >> 6); }
-
-uint Pixel::OffsetPixel(uint offset) { return offset >> 6; }
+uint Pixel::GetOffset(uint val) {
+  return uint(val >> 6);
+}  // ???????? probably mistake
 
 std::string Pixel::String() {
   auto s = GetRole().String();
@@ -44,7 +44,7 @@ std::string Pixel::String() {
   if (val_ & Pixel::Invert) {
     s += "+invert";
   }
-  s += "+" + std::to_string(GetOffset());
+  s += "+" + std::to_string(GetOffset(val_));
   return s;
 }
 

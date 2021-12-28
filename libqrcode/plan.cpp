@@ -57,6 +57,7 @@ void DrawBox(util::Grid map, uint x, uint y) {
     }
   }
 }
+uint OffsetPixel(uint offset) { return (offset << 6); }
 
 }  // namespace util
 
@@ -125,7 +126,7 @@ Plan::Plan(uint version)
   map_[map_.size() - 8][8] = (PixelRole::Unused << 2) | Pixel::Black;
 }
 
-void Plan::FormatPlan(uint32_t level, uint32_t mask) {
+void Plan::Format(uint32_t level, uint32_t mask) {
   uint fb = (level ^ 1) << 13;
   fb |= (mask << 10);
   uint rem = fb;
@@ -168,4 +169,27 @@ void Plan::CorrectErrors() {
   auto ne = metadata::vtab[version_].level(level_).check();
   auto nde = (metadata::vtab[version_].bytes() - ne * blocks_) / blocks_;
   auto extra = (metadata::vtab[version_].bytes() - ne * blocks_) % blocks_;
+  size_t data_size = (nde & nblock);
+  size_t error_correction = (ne * nblock * 8);
+
+  data_ = metadata::vtab[version_].bytes() - ne * blocks_;
+  std::vector<Pixel> data(data_size);
+  for (uint i = 0; i < data.size(); i++) {
+    data[i] = (PixelRole::Data << 2) | util::OffsetPixel(i);
+  }
+  std::vector<Pixel> check(error_correction);
+  for (uint i = 0; i < check.size(); i++) {
+    check[i] = (PixelRole::Check << 2) | util::OffsetPixel(i + data_size)
+  }
+
+  util::Grid data_list(blocks_);
+  util::Grid check_list(blocks_);
+
+  for (uint i = 0; i < blocks_; i++) {
+    auto nd = nde;
+    if (i >= blocks_ - extra) {
+      nd++;
+    }
+//    data_list[i] =
+  }
 }

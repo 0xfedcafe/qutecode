@@ -37,7 +37,6 @@ class Pixel {
   Pixel(int init);
   PixelRole GetRole();
   static uint GetOffset(uint val);
-  uint OffsetPixel(uint offset);
   std::string String();
 
  private:

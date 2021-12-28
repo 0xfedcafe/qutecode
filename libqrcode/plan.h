@@ -24,6 +24,8 @@ template <typename T>
 bool Between(const T& left, const T& right, const T& val);
 
 inline bool Edge(int delta);
+
+uint OffsetPixel(uint offset);
 }  // namespace util
 
 class Plan {
