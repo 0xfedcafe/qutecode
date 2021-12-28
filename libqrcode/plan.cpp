@@ -126,7 +126,46 @@ Plan::Plan(uint version)
 }
 
 void Plan::FormatPlan(uint32_t level, uint32_t mask) {
-  auto fb = (level ^ 1) << 13;
+  uint fb = (level ^ 1) << 13;
   fb |= (mask << 10);
-  // todo: finish operations with plans
+  uint rem = fb;
+  for (uint i = 14; i >= 10; i--) {
+    if (rem & (1 << i)) {
+      rem ^= (util::format_poly << (i - 10));
+    }
+  }
+  fb |= rem;
+  for (uint i = 0; i < 15; i++) {
+    auto pixel = (PixelRole::Format << 2) + Pixel::GetOffset(i);
+    if ((fb >> i) & 1) {
+      pixel |= Pixel::Black;
+    }
+    if ((util::invert >> i) & 1) {
+      pixel ^= Pixel::Black | Pixel::Invert;
+    }
+
+    // top left
+    if (i < 6) {
+      map_[i][8] = pixel;
+    } else if (i == 6 || i == 7) {
+      map_[i + 1][8] = pixel;
+    } else if (i == 8) {
+      map_[8][7] = pixel;
+    } else {
+      map_[8][14 - i] = pixel;
+    }
+
+    if (i < 8) {
+      map_[8][map_.size() - i] = pixel;
+    } else {
+      map_[map_.size() - 1 - (14 - i)][8] = pixel;
+    }
+  }
+}
+
+void Plan::CorrectErrors() {
+  auto nblock = metadata::vtab[version_].level(level_).nblock();
+  auto ne = metadata::vtab[version_].level(level_).check();
+  auto nde = (metadata::vtab[version_].bytes() - ne * blocks_) / blocks_;
+  auto extra = (metadata::vtab[version_].bytes() - ne * blocks_) % blocks_;
 }

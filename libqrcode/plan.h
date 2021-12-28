@@ -11,8 +11,9 @@
 #include "pixel.h"
 
 namespace util {
-const int timing_marker = 6;
-const int format_poly = 0x537;
+const uint timing_marker = 6;  // maybe shouldn't be uint
+const uint format_poly = 0x537;
+const uint invert = 0x5412;
 typedef std::vector<std::vector<Pixel>> Grid;
 
 Grid GenerateGrid(size_t size);
@@ -31,7 +32,8 @@ class Plan {
 
  private:
   void AlignBox(uint x, uint y);
-  void FormatPlan(uint level, uint mask);
+  void Format(uint level, uint mask);
+  void CorrectErrors();
 
   uint version_;
   uint level_;

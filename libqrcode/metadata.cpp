@@ -5,7 +5,7 @@
 #include "metadata.h"
 
 #include <cstdlib>
-
+// Version Begin
 metadata::Version::Version(uint pos, uint stride, uint bytes, uint pattern,
                            std::vector<Level> level)
     : pos_(pos),
@@ -14,11 +14,20 @@ metadata::Version::Version(uint pos, uint stride, uint bytes, uint pattern,
       pattern_(pattern),
       level_(level) {}
 
-metadata::Level::Level(uint nblock, uint check)
-    : nblock(nblock), check(check) {}
-
 uint metadata::Version::pos() const { return pos_; }
 uint metadata::Version::stride() const { return stride_; }
 uint metadata::Version::bytes() const { return bytes_; }
 uint metadata::Version::pattern() const { return pattern_; }
-std::vector<metadata::Level> metadata::Version::level() const { return level_; }
+metadata::Level metadata::Version::level(size_t index) const {
+  return level_[index];
+}
+
+// Version End
+
+// Level begin
+metadata::Level::Level(uint nblock, uint check)
+    : nblock_(nblock), check_(check) {}
+
+uint metadata::Level::nblock() const { return nblock_; }
+uint metadata::Level::check() const { return check_; }
+// Level end

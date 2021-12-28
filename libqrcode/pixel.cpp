@@ -32,9 +32,9 @@ int PixelRole::GetVal() { return val_; }
 
 PixelRole Pixel::GetRole() { return (PixelRole(val_ >> 2).GetVal() & 15); }
 
-uint32_t Pixel::GetOffset() { return uint(val_ >> 6); }
+uint Pixel::GetOffset(uint val) { return uint(val >> 6); }
 
-Pixel Pixel::OffsetPixel(uint32_t offset) { return Pixel(offset >> 6); }
+uint Pixel::OffsetPixel(uint offset) { return offset >> 6; }
 
 std::string Pixel::String() {
   auto s = GetRole().String();

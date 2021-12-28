@@ -12,10 +12,12 @@ namespace metadata {
 class Level {
  public:
   Level(uint nblock, uint check);
+  uint nblock() const;
+  uint check() const;
 
  private:
-  uint nblock;
-  uint check;
+  uint nblock_;
+  uint check_;
 };
 
 class Version {
@@ -27,7 +29,7 @@ class Version {
   uint stride() const;
   uint bytes() const;
   uint pattern() const;
-  std::vector<Level> level() const;
+  Level level(size_t index) const;
 
  private:
   uint pos_;

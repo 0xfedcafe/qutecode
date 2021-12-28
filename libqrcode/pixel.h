@@ -36,8 +36,8 @@ class Pixel {
   enum { Black = 1, Invert };
   Pixel(int init);
   PixelRole GetRole();
-  uint32_t GetOffset();
-  Pixel OffsetPixel(uint32_t offset);
+  static uint GetOffset(uint val);
+  uint OffsetPixel(uint offset);
   std::string String();
 
  private:
