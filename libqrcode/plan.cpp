@@ -59,7 +59,20 @@ void DrawBox(util::Grid map, uint x, uint y) {
 }
 
 }  // namespace util
-volatile int a;
+
+void Plan::AlignBox(uint x, uint y) {
+  auto align = (PixelRole::Alignment << 2);
+  for (uint dy = 0; dy < 5; dy++) {
+    for (uint dx = 0; dx < 5; dx++) {
+      auto p = align;
+      if (dx == 0 || dx == 4 || dy == 0 || dy == 4 || dx == 2 || dy == 2) {
+        p |= Pixel::Black;
+      }
+      map_[y + dy][x + dx] = p;
+    }
+  }
+}
+
 Plan::Plan(uint version)
     : version_(version), map_(util::GenerateGrid(4 * version + 17)) {
   for (uint i = 0; i < map_.size(); i++) {
@@ -73,6 +86,47 @@ Plan::Plan(uint version)
   util::DrawBox(map_, 0, 0);
   util::DrawBox(map_, map_.size(), 0);
   util::DrawBox(map_, 0, map_.size() - 7);
-  auto info = metadata::vtab[version];
-  // todo
+  auto info = metadata::vtab[version_];
+  for (uint x = 4; x + 5 < map_.size();) {
+    for (uint y = 4; y + 5 < map_.size();) {
+      // don't overwrite timinig markers
+      if (!((x < 7 && y < 7) || ((x < 7) && (y + 5 >= (map_.size() - 7))) ||
+            (x + 5 >= map_.size() - 7 && y < 7))) {
+        AlignBox(x, y);
+      }
+      if (y == 4) {
+        y = info.pos();
+      } else {
+        y += info.stride();
+      }
+    }
+    if (x == 4) {
+      x = info.pos();
+    } else {
+      x += info.stride();
+    }
+  }
+  auto pattern = metadata::vtab[version_].pattern();
+  if (pattern != 0) {
+    version = pattern;
+    for (uint dx = 0; x < 6; x++) {
+      for (uint dy = 0; dy < 3; dy++) {
+        auto pixel = (PixelRole::PVersion << 2);
+        if (version & 1) {
+          pixel |= Pixel::Black;
+          map_[map_.size() - 11 + dy][dx] = pixel;
+          map_[dx][map_.size() - 11 + dy] = pixel;
+          version >>= 1;
+        }
+      }
+    }
+  }
+  // one lonely black pixel
+  map_[map_.size() - 8][8] = (PixelRole::Unused << 2) | Pixel::Black;
+}
+
+void Plan::FormatPlan(uint32_t level, uint32_t mask) {
+  auto fb = (level ^ 1) << 13;
+  fb |= (mask << 10);
+  // todo: finish operations with plans
 }

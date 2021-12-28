@@ -20,7 +20,7 @@ std::string PixelRole::String() {
 }
 
 Pixel::Pixel(int init) : val_(init){};
-Pixel::Pixel() : val_(0) {};
+Pixel::Pixel() : val_(0){};
 
 PixelRole::PixelRole(int init) : val_(init){};
 

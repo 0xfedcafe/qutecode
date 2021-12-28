@@ -23,6 +23,12 @@ class Version {
   Version(uint pos, uint stride, uint bytes, uint pattern,
           std::vector<Level> level);
 
+  uint pos() const;
+  uint stride() const;
+  uint bytes() const;
+  uint pattern() const;
+  std::vector<Level> level() const;
+
  private:
   uint pos_;
   uint stride_;

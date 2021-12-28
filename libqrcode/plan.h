@@ -12,6 +12,7 @@
 
 namespace util {
 const int timing_marker = 6;
+const int format_poly = 0x537;
 typedef std::vector<std::vector<Pixel>> Grid;
 
 Grid GenerateGrid(size_t size);
@@ -29,6 +30,9 @@ class Plan {
   Plan(uint version);
 
  private:
+  void AlignBox(uint x, uint y);
+  void FormatPlan(uint level, uint mask);
+
   uint version_;
   uint level_;
 
